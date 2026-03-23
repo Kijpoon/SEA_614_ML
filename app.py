@@ -6,7 +6,7 @@ st.set_page_config(page_title="Shopping Review Analysis", page_icon="🛍️")
 
 # โหลดโมเดลและ TF-IDF ที่บันทึกไว้
 try:
-    with open('best_model.pkl', 'rb') as f:
+    with open('best_model_attacut.pkl', 'rb') as f:
         tfidf, model = pickle.load(f)
 except FileNotFoundError:
     st.error("ไม่พบไฟล์โมเดล! กรุณารันโค้ด Train ก่อน")
