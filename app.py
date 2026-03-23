@@ -1,41 +1,29 @@
 import streamlit as st
 import pickle
-from attacut import tokenize
+from pythainlp import word_tokenize  # เปลี่ยนมาใช้ตัวนี้
 
+
+# 🚨 ต้องประกาศฟังก์ชันนี้ให้เหมือนตอนเทรนเป๊ะๆ
 def thai_tokenize(text):
-    return tokenize(text)
+    return word_tokenize(text, engine="newmm")
 
-# ตั้งค่าหน้าเว็บ
-st.set_page_config(page_title="Shopping Review Analysis", page_icon="🛍️")
 
-# โหลดโมเดลและ TF-IDF ที่บันทึกไว้
+st.title("🛍️ Shopping Review Analysis (PyThaiNLP Edition)")
+
+# โหลดโมเดลตัวใหม่
 try:
-    with open('best_model_attacut.pkl', 'rb') as f:
+    with open('model_pythainlp.pkl', 'rb') as f:
         tfidf, model = pickle.load(f)
-except FileNotFoundError:
-    st.error("ไม่พบไฟล์โมเดล! กรุณารันโค้ด Train ก่อน")
 
-# ส่วนแสดงผลบนหน้าเว็บ
-st.title("🔍 ระบบวิเคราะห์รีวิวสินค้า (Thai Sentiment)")
-st.markdown("ระบุข้อความรีวิวสินค้า เพื่อให้ AI วิเคราะห์ว่าเป็นด้านบวกหรือด้านลบ")
-
-# ช่องรับข้อมูลจากผู้ใช้
-user_input = st.text_area("กรอกรีวิวที่นี่:", placeholder="เช่น สินค้าคุณภาพดีมาก ส่งไวสุดๆ")
-
-if st.button("วิเคราะห์ผล"):
-    if user_input.strip() == "":
-        st.warning("กรุณากรอกข้อความก่อนกดปุ่มครับ")
-    else:
-        # แปลงข้อความเป็นตัวเลขและทำนายผล
+    user_input = st.text_area("กรอกรีวิวสินค้า:")
+    if st.button("วิเคราะห์"):
         vec_input = tfidf.transform([user_input])
         prediction = model.predict(vec_input)[0]
 
-        # แสดงผลลัพธ์
-        st.subheader("ผลการวิเคราะห์:")
         if prediction == 'pos':
-            st.success("✅ **POSITIVE (ชอบสินค้า)** 😊")
+            st.success("ผลลัพธ์: Positive 😊")
         else:
-            st.error("❌ **NEGATIVE (ไม่ชอบสินค้า)** 😡")
+            st.error("ผลลัพธ์: Negative 😡")
 
-st.markdown("---")
-st.caption("Model: Multinomial Naive Bayes | Feature: TF-IDF (Char N-grams)")
+except Exception as e:
+    st.error(f"เกิดข้อผิดพลาด: {e}")
