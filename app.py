@@ -10,7 +10,7 @@ st.title("🛍️ Shopping Review Analysis")
 
 # โหลดโมเดลตัวใหม่
 try:
-    with open('model_pythainlp.pkl', 'rb') as f:
+    with open('best_model.pkl', 'rb') as f:
         tfidf, model = pickle.load(f)
 
     user_input = st.text_area("กรอกรีวิวสินค้า:")
