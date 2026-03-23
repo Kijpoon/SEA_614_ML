@@ -1,5 +1,9 @@
 import streamlit as st
 import pickle
+from attacut import tokenize
+
+def thai_tokenize(text):
+    return tokenize(text)
 
 # ตั้งค่าหน้าเว็บ
 st.set_page_config(page_title="Shopping Review Analysis", page_icon="🛍️")
