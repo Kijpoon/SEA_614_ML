@@ -2,13 +2,11 @@ import streamlit as st
 import pickle
 from pythainlp import word_tokenize  # เปลี่ยนมาใช้ตัวนี้
 
-
 # 🚨 ต้องประกาศฟังก์ชันนี้ให้เหมือนตอนเทรนเป๊ะๆ
 def thai_tokenize(text):
     return word_tokenize(text, engine="newmm")
 
-
-st.title("🛍️ Shopping Review Analysis (PyThaiNLP Edition)")
+st.title("🛍️ Shopping Review Analysis")
 
 # โหลดโมเดลตัวใหม่
 try:
